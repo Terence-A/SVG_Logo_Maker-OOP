@@ -4,6 +4,10 @@ const inquirer = require("inquirer");
 // Using file system dependency
 const fs = require("fs");
 
+// Import classes from .lib
+
+const { Triangle, Square, Circle, shapeone } = require("./lib/shapes");
+
 // inquirer
 //   - prompt for text: can enter up to 3 characters
 //   - text color (color keyword or a hexadecimal number)
@@ -47,11 +51,26 @@ promptUser = () => {
         message: "What shape would you like your logo to be (Choose one)",
         choices: ["circle", "triangle", "square"],
       },
+      {
+        type: "input",
+        name: "shapeColor",
+        message:
+          "what color would you like the shape to be? (Color keyword or hexadecimal number!",
+        validate: (shapeColor) => {
+          if (shapeColor) {
+            return true;
+          } else {
+            console.log("No color picked, please enter a color!");
+          }
+        },
+      },
     ])
     .then((answers) => {
-      console.log(answers.logoText);
-      console.log(answers.textColor);
-      console.log(answers.logoShape);
+      let logoText = answers.logoText;
+      let textColor = answers.textColor;
+      let logoShape = answers.logoShape;
+      let shapeColor = answers.shapeColor;
+      shapeone();
     });
 };
 
