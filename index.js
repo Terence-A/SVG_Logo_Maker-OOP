@@ -6,7 +6,37 @@ const fs = require("fs");
 
 // Import classes from .lib
 
-const { Triangle, Square, Circle, shapeone } = require("./lib/shapes");
+const { Triangle, Square, Circle, Shape } = require("./lib/shapes");
+
+//Function to write svg using answers
+function writeToFile(fileName, answers) {
+  let svg = "";
+  svg = `<svg version="1.1" width="300" height="200" xmlns="http://www.w3.org/2000/svg">`;
+  //   svg += `${answers.logoShape}`;
+
+  let chosenShape = "";
+  if (answers.logoShape === "Circle") {
+    chosenShape = new Circle(answers.shapeColor);
+    svg += chosenShape.render(answers.shapeColor);
+  }
+  if (answers.logoShape === "Triangle") {
+    chosenShape = new Triangle(answers.shapeColor);
+    svg += chosenShape.render(answers.shapeColor);
+  }
+  if (answers.logoShape === "Square") {
+    chosenShape = new Square(answers.shapeColor);
+    svg += chosenShape.render(answers.shapeColor);
+  }
+  svg += `<text x="150" y="130" text-anchor="middle" font-size="60" fill="${answers.textColor}">${answers.logoText}</text> 
+  </svg>`;
+
+  fs.writeFile(fileName, svg, function (err) {
+    if (err) {
+      return console.log(err);
+    }
+    console.log("Generated logo.svg");
+  });
+}
 
 // inquirer
 //   - prompt for text: can enter up to 3 characters
@@ -49,7 +79,7 @@ promptUser = () => {
         type: "list",
         name: "logoShape",
         message: "What shape would you like your logo to be (Choose one)",
-        choices: ["circle", "triangle", "square"],
+        choices: ["Circle", "Triangle", "Square"],
       },
       {
         type: "input",
@@ -66,15 +96,10 @@ promptUser = () => {
       },
     ])
     .then((answers) => {
-      let logoText = answers.logoText;
-      let textColor = answers.textColor;
-      let logoShape = answers.logoShape;
-      let shapeColor = answers.shapeColor;
-      shapeone();
+      writeToFile("logo.svg", answers);
     });
 };
 
-// Create SVG file namde "logo.svg" - output text "Generated logo.svg" is printed to command link
 // -- when opened (logo.svg) file in browser shown 300*200 pixel image that matches criteria
 
 // Render application
