@@ -17,7 +17,7 @@
 
 ## Tests
 
-- After installations, run command "npm test", this will test all 3 shapes with colors and give results through module jest.
+- After installation, run command "npm test", this will test all 3 shapes with colors and give results through module jest.
 
 ## Screenshots
 ### Results from running App: 
